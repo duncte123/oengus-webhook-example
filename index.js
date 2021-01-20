@@ -10,7 +10,7 @@ app.use(cors());
 
 app.post('/:marathonId', (req, res) => {
     const body = req.body;
-    const marathon = req.params.marathonId
+    const marathon = req.params.marathonId;
 
     console.log(JSON.stringify(body));
 	handleWebhook(body, marathon);
@@ -18,7 +18,7 @@ app.post('/:marathonId', (req, res) => {
     res.send('OK');
 });
 
-async function handleWebhook(data) {
+async function handleWebhook(data, marathon) {
 	switch (data.event) {
 		case 'PING':
 			console.log('Got ping event');
@@ -28,7 +28,7 @@ async function handleWebhook(data) {
 			break;
 		case 'SUBMISSION_ADD':
 			try {
-				await sendSubmissionToDiscord(data.submission);
+				await sendSubmissionToDiscord(data.submission, marathon);
 			} catch (e) {
 				console.error(e);
 			}

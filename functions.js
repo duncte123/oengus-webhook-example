@@ -37,15 +37,18 @@ async function sendSubmissionToDiscord(submission, marathonId) {
     const marathon = await getMarathonName(marathonId);
     const submissionsUrl = `https://oengus.io/marathon/${marathonId}/submissions`;
 
-    submission.categories.forEach(category => {
-        toAnnounce.push({
-            catDesc: category.description,
-            catId: category.id,
-            categoryName: category.name,
-            consoleName: submission.console,
-            gameDesc: submission.description,
-            gameName: submission.name,
-            userName: submission.user.username,
+    submission.games.forEach(game => {
+        game.categories.forEach(category => {
+            toAnnounce.push({
+                catDesc: category.description,
+                catId: category.id,
+                categoryName: category.name,
+                categoryEstimate: category.estimate,
+                consoleName: game.console,
+                gameDesc: game.description,
+                gameName: game.name,
+                userName: submission.user.username,
+            });
         });
     });
 
@@ -65,13 +68,13 @@ async function formatSendSubmission(info, marathonName, submissionUrl) {
                 title: `${info.userName} submitted a new run!`,
                 url: submissionUrl,
                 color: 0x5c88bc,
-                description: `**Event**: ${marathonName}\n\n**Game**: ${info.gameName}\n**Category**: ${info.categoryName}\n**Platform**: ${info.consoleName}\n**Game Description**: ${info.gameDesc}\n**Category Description**: ${info.catDesc}`,
+                description: `**Event**: ${marathonName}\n\n**Game**: ${info.gameName}\n**Category**: ${info.categoryName}\n**Platform**: ${info.consoleName}\n**Estimate**: ${info.categoryEstimate}`,
                 footer: {text: `ID: ${info.catId}`},
             }
         },
         {
             headers: {
-                'Authorisation': `Bot ${config.botToken}`
+                'Authorization': `Bot ${config.botToken}`
             },
         }
     );
