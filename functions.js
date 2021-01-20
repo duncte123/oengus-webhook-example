@@ -59,6 +59,7 @@ async function sendSubmissionToDiscord(submission, marathonId) {
     }
 }
 
+// adapted from https://github.com/bingothon/oengus-submission-discord-bot
 async function formatSendSubmission(info, marathonName, submissionUrl) {
     return discordClient.post(`https://discord.com/api/v8/channels/${config.textChannel}/messages`, {
             embed: {
