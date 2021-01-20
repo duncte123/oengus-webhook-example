@@ -16,7 +16,6 @@ const discordClient = rateLimit(
         // 4 max requests per one second (should be good)
         maxRequests: 4,
         perMilliseconds: 1000,
-        maxRPS: 2
     }
 );
 
